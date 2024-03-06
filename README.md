@@ -1,2 +1,2 @@
-# terorist-quiz
-teroristini dogru tani turkiye
+# terorist-quiz-for-experts
+teroristini dogru tani turkiye (non fetö/pkk version)
