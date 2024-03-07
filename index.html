@@ -119,15 +119,9 @@
     <br/>
     <button id="reset-button">Skoru Sıfırla</button>
     <br/>
-    <h2>Sivilleri Ekle</h2>
-    <label class="switch">
-      <input type="checkbox" id="include-civilians-toggle" onchange="toggleIncludeCivilians()" checked>
-      <span class="slider round"></span>
-    </label>
     <details class="about">
       <summary>Hakkında</summary>
       <p>Veriler herkese açık olarak yayınlanan <a href="https://www.terorarananlar.pol.tr/tarananlar/" target="_blank">T.C. İçişleri Bakanlığı Terör Arananlar</a> listesinden alınmaktadır.</p>
-      <p>Sivillerin fotoğrafları yapay zeka ile insan fotoğrafı üreten <a target="_blank" href="https://thispersondoesnotexist.com">https://thispersondoesnotexist.com</a> adresinden alınmaktadır.</p>
     </details>
   </div>
 <script>
@@ -142,8 +136,6 @@
   let correctScore = localStorage.getItem('correctScore') ? parseInt(localStorage.getItem('correctScore')) : 0;
   let incorrectScore = localStorage.getItem('incorrectScore') ? parseInt(localStorage.getItem('incorrectScore')) : 0;
   let totalQuestionsAnswered = correctScore + incorrectScore;
-
-  let includeCivilians = true;
 
   async function fetchTerroristData() {
     try {
@@ -166,41 +158,13 @@
     }
   }
 
-  async function fetchCivilianData() {
-    try {
-      const civilianImageUrl = 'https://thispersondoesnotexist.com/';
-      const civilianData = [];
-
-      for (let i = 0; i < 750; i++) {
-        civilianData.push({
-          TOrgutAdi: 'Sivil',
-          IlkGorselURL: civilianImageUrl
-        });
-      }
-
-      return civilianData;
-    } catch (error) {
-      console.error('Hata: Sivil verileri alınamadı:', error);
-      return [];
-    }
-  }
-
   async function populateQuizData() {
     let terroristData = await fetchTerroristData();
-    let civilianData = [];
 
-    if (includeCivilians) {
-      civilianData = await fetchCivilianData();
-    }
-
-    const combinedData = includeCivilians ? [...terroristData, ...civilianData] : terroristData;
+    const combinedData = terroristData;
     combinedData.sort(() => Math.random() - 0.5);
 
     return combinedData;
-  }
-
-  function toggleIncludeCivilians() {
-    includeCivilians = !includeCivilians;
   }
 
   async function displayQuiz() {
